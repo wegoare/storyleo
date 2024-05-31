@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include('./partials/head.ejs') %>
+    <link rel="stylesheet" href="../css/style.css">
+    <title>blog</title>
+</head>
+<body>
+    <%- include('./partials/nav.ejs') %>
+    <div class="container">
+    <h1><%= blog.title %></h1>
+    <img src="<%= blog.coverImageURL %>" height="30%" width="50%"/>
+    <p><%= blog.body%></p>
+    </div>
+<div class="container mt-3">
+    <img src="<%= blog.createdBy.profileImageURL %>" width="50px" style="border-radius: 50%; width: 50px; height: 50px; object-fit: cover;">
+
+    <%= blog.createdBy.fullName %>
+</div>
+
+<div class="container mt-4">
+<h1>comments <%= comments.length %></h1>
+<% if (locals.user) { %>
+    <form action="/blog/comment/<%= blog._id %>" method="post">
+
+        <div class="mb-3">
+          <input type="text" name="content" class="form-control"  placeholder="enter your comment"/>
+          <button class="btn btn-sm btn-primary">Add</button>
+      </form>
+<% } %>
+</div>
+
+<div class="container mt-3">
+    <% comments.forEach(comment => { %>
+        <div class="comment" style="display: flex; align-items: center;">
+            <img src="<%= comment.createdBy.profileImageURL %>" width="50px" class="profile-image" alt="Profile Image" style="border-radius: 50%;">
+            <p style="margin-left: 10px;"><%= comment.content %></p>
+        </div>
+    <% }) %>
+</div>
+    <%- include('./partials/script.ejs') %>
+</body>
+</html>
