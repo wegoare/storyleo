@@ -24,7 +24,7 @@ const upload = multer({ storage: storage });
 // Route to fetch and display all blogs
 router.get('/', async (req, res) => {
     try {
-        const blogs = await Blog.find().sort({ createdAt: -1 }).populate("createdBy");
+        const blogs = await Blog.find().sort({ createdAt: 1 }).populate("createdBy");
         return res.render('home', {
             user: req.user,
             blogs: blogs,
@@ -120,6 +120,28 @@ router.post('/comment/:blogId', checkForAuthenticationCookie('token'), async (re
     } catch (err) {
         console.error(err);
         return res.status(500).send("An error occurred while adding the comment.");
+    }
+});
+
+router.delete('/blog/:id', checkForAuthenticationCookie('token'), async (req, res) => {
+    try {
+        const blog = await Blog.findById(req.params.id);
+        
+        // Check if the blog post exists
+        if (!blog) {
+            return res.status(404).json({ msg: 'Blog not found' });
+        }
+        
+        // Check if the logged-in user is the creator of the blog post
+        if (blog.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'User not authorized' });
+        }
+
+        await blog.remove();
+        res.json({ msg: 'Blog removed' });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
     }
 });
 

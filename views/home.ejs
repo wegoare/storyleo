@@ -16,12 +16,36 @@
                         <div class="card-body">
                             <h5 class="card-title"><%= blog.title %></h5>
                             <a href="/blog/<%= blog._id %>" class="btn btn-primary">View</a>
+                            <% if (locals.user && blog.user && locals.user._id === blog.user._id) { %>
+                                <button onclick="deleteBlog('<%= blog._id %>')" class="btn btn-danger">Delete</button>
+                            <% } %>
                         </div>
                     </div>
                 </div>
             <% }) %>
         </div>
     </div>
+    <script>
+        async function deleteBlog(id) {
+            try {
+                const res = await fetch(`/blog/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await res.json();
+                if (res.status === 200) {
+                    alert(data.msg);
+                    location.reload();
+                } else {
+                    alert(data.msg);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    </script>
     <%- include('./partials/script.ejs') %>
 </body>
 </html>
