@@ -1,51 +1,63 @@
 <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Blogify</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
-          </li>
-          <% if (locals.user) { %>
-            <li class="nav-item">
-              <a class="nav-link" href="/blog/add-new">Add blog</a>
-            </li>
-            
-          <% } %>
-        </ul>
+  <div class="container-fluid">
+    <!-- <a class="navbar-brand" href="#">StoryLeo</a> -->
+    <a class="navbar-brand" href="/">
+      <img src="/images/2-removebg-preview (1).png" alt="StoryLeo Logo " height="60" width="120" >
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li> -->
         <% if (locals.user) { %>
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <span><%= user.fullName %></span>
-                </li>
-              </ul>
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="/user/logout">Logout</a>
-            </li>
-          </ul>
-        <% } else { %>
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="/user/signup">Create Account</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/user/signin">Sign In</a>
-            </li>
-          </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/add-new">Add Story</a>
+          </li>
         <% } %>
-      </div>
+      </ul>
+      <% if (locals.user) { %>
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <span><%= user.fullName %></span>
+              </li>
+            </ul>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/user/logout">Logout</a>
+          </li>
+        </ul>
+      <% } else { %>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/user/signup">Create Account</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/signin">Sign In</a>
+          </li>
+        </ul>
+      <% } %>
     </div>
-  </nav>
-  
-  <% if (locals.error) { %>
-    <div class="container mt-4">
-      <div class="alert alert-danger" role="alert">
-        <%= locals.error %>
-      </div>
+  </div>
+</nav>
+
+<% if (locals.error) { %>
+  <div class="container mt-4">
+    <div class="alert alert-danger" role="alert" id="errorAlert">
+      <%= locals.error %>
     </div>
-  <% } %>
-  
+  </div>
+<% } %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const errorAlert = document.getElementById('errorAlert');
+    if (errorAlert) {
+      setTimeout(() => {
+        errorAlert.style.display = 'none';
+      }, 1500);
+    }
+  });
+</script>

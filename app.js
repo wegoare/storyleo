@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -13,7 +15,7 @@ const Blog = require('./models/blog');
 const Comment = require('./models/comment');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
@@ -32,7 +34,7 @@ app.use('/user', userRoute);
 app.use('/blog', blogRoute);
 
 // MongoDB Connection
-mongoose.connect('mongodb://127.0.0.1:27017/blogi', {
+mongoose.connect(process.env.Mongo_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => {
