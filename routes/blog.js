@@ -188,7 +188,7 @@ router.get('/add-new', checkForAuthenticationCookie('token'), (req, res) => {
     if (!req.user) {
         return res.status(401).send("Unauthorized: No user logged in.");
     }
-    res.render('addBlog', { user: req.user });
+    res.render('addblog', { user: req.user });
 });
 
 // Add a new blog
